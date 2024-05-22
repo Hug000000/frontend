@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "serve -s dist"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
@@ -23,6 +24,7 @@
     "react-places-autocomplete": "^7.3.0",
     "react-router-dom": "^6.23.0",
     "react-select": "^5.8.0",
+    "serve": "^14.2.3",
     "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
