@@ -190,6 +190,16 @@ function CreateTripPage() {
                   </option>
                 ))}
               </select>
+
+              <label className="block mb-2 text-sm font-bold">Prix</label>
+            <input
+              name="prix"
+              type="number"
+              className="input bg-secondary text-primary w-full max-w-xs mb-6"
+              placeholder="Prix en euros"
+              value={formData.prix}
+              onChange={handleChange}
+            />
             </div>
           </div>
 
@@ -241,15 +251,6 @@ function CreateTripPage() {
               onChange={handleChange}
             ></textarea>
 
-            <label className="block mb-2 text-sm font-bold">Prix</label>
-            <input
-              name="prix"
-              type="number"
-              className="input bg-secondary text-primary w-full max-w-xs mb-6"
-              placeholder="Prix en euros"
-              value={formData.prix}
-              onChange={handleChange}
-            />
           </div>
         </div>
 
