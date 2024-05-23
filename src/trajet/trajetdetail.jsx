@@ -149,7 +149,7 @@ const TrajetDetails = () => {
       <div className="bg-neutral text-primary p-8 rounded-2xl w-full max-w-4xl px-20 py-10 justify-center items-center">
         <h1 className="text-4xl font-bold my-6">Détails du Trajet</h1>
         {trajetDeletedError && <div className="text-red-500 mb-4">{trajetDeletedError}</div>}
-        <div className="bg-gray-100 p-4 rounded-lg my-1">
+        <div className="bg-secondary p-4 rounded-lg my-1">
           <p><strong>Description:</strong> {trajet.description}</p>
         </div>
         <p className="my-1"><strong>De:</strong> {trajet.villedepart.nom}</p>
@@ -168,8 +168,8 @@ const TrajetDetails = () => {
         <p className="my-1"><strong>Âge:</strong> {conducteur?.age}</p>
         <p className="my-1"><strong>Contact:</strong> {conducteur?.numtel}</p>
         <p>
-          <strong>Evaluation:</strong>
-          <span onClick={() => navigate(`/avis-utilisateur/${conducteur?.idutilisateur}`)} className="text-blue-500 cursor-pointer">
+          <strong>Evaluation: </strong>
+          <span onClick={() => navigate(`/avis-utilisateur/${conducteur?.idutilisateur}`)} className="text-base-100 cursor-pointer">
             {rating}
           </span>
         </p>

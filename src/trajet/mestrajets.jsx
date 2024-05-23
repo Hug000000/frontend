@@ -62,7 +62,7 @@ const MesTrajets = () => {
           <div className="collapse-content">
             <div className="collapse collapse-arrow border border-accent bg-accent my-4">
               <input type="checkbox" />
-              <div className="collapse-title text-xl font-medium">
+              <div className="collapse-title text-primary text-xl font-medium">
                 Trajets passés
               </div>
               <div className="collapse-content">
@@ -71,7 +71,7 @@ const MesTrajets = () => {
             </div>
             <div className="collapse collapse-arrow border border-accent bg-accent my-4">
               <input type="checkbox" />
-              <div className="collapse-title text-xl font-medium">
+              <div className="collapse-title text-primary text-xl font-medium">
                 Trajets à venir
               </div>
               <div className="collapse-content">
@@ -88,7 +88,7 @@ const MesTrajets = () => {
           <div className="collapse-content">
             <div className="collapse collapse-arrow border border-accent bg-accent my-4">
               <input type="checkbox" />
-              <div className="collapse-title text-xl font-medium">
+              <div className="collapse-title text-primary text-xl font-medium">
                 Trajets passés
               </div>
               <div className="collapse-content">
@@ -97,7 +97,7 @@ const MesTrajets = () => {
             </div>
             <div className="collapse collapse-arrow border border-accent bg-accent my-4">
               <input type="checkbox" />
-              <div className="collapse-title text-xl font-medium">
+              <div className="collapse-title text-primary text-xl font-medium">
                 Trajets à venir
               </div>
               <div className="collapse-content">

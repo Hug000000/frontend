@@ -48,7 +48,7 @@ function HeroSection() {
 function FeaturesSection() {
   return (
     <section className="bg-secondary pt-16">
-      <h1 className="mb-4 text-6xl font-bold text-center">Voyagez en toute simplicité</h1>
+      <h1 className="mb-4 text-6xl text-primary font-bold text-center">Voyagez en toute simplicité</h1>
       <div className="container mx-auto px-2 py-16">
         <div className="flex items-center justify-between">
           <div className="w-1/2 p-4 bg-opacity-0">
@@ -90,7 +90,7 @@ function IconSection() {
       <div className="flex justify-around items-stretch px-4">
         <div className="flex flex-col mx-4 w-1/3">
           <FaMoneyBill className="text-6xl mb-2 mx-auto text-primary" />
-          <div className="collapse bg-base-200 collapse-arrow mx-4">
+          <div className="collapse  bg-opacity-0 collapse-arrow mx-4">
             <input type="checkbox" className="peer" /> 
             <div className="text-xl collapse-title bg-accent text-accent-content peer-checked:bg-primary peer-checked:text-primary-content">
               Économisez sur vos trajets
@@ -104,7 +104,7 @@ function IconSection() {
         </div>
         <div className="flex flex-col mx-4 w-1/3">
           <FaLeaf className="text-6xl mb-2 mx-auto text-primary" />
-          <div className="collapse bg-base-200 collapse-arrow mx-4">
+          <div className="collapse  bg-opacity-0 collapse-arrow mx-4">
             <input type="checkbox" className="peer" /> 
             <div className="text-xl collapse-title bg-accent text-accent-content peer-checked:bg-primary peer-checked:text-primary-content">
               Réduisez l'empreinte carbone
@@ -118,7 +118,7 @@ function IconSection() {
         </div>
         <div className="flex flex-col mx-4 w-1/3">
           <AiFillThunderbolt className="text-6xl mb-2 mx-auto text-primary" />
-          <div className="collapse bg-base-200 collapse-arrow mx-4">
+          <div className="collapse bg-opacity-0 collapse-arrow mx-4">
             <input type="checkbox" className="peer" /> 
             <div className="text-xl collapse-title bg-accent text-accent-content peer-checked:bg-primary peer-checked:text-primary-content">
               Un clic pour voyager
