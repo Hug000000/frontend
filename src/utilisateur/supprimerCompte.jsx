@@ -12,11 +12,7 @@ function SupprimerCompte() {
   // Fonction pour supprimer le compte
   async function supprimerCompte() {
     try {
-      const response = await apiClient.delete('/utilisateurs/', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const response = await apiClient.delete('/utilisateurs/');
 
       if (response.status === 200) {
         setSuccessMessage('Compte supprimé avec succès.');
