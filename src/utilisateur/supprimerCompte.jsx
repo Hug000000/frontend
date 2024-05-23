@@ -10,7 +10,7 @@ function SupprimerCompte() {
   const [successMessage, setSuccessMessage] = useState(null);
 
   // Fonction pour supprimer le compte
-  async function supprimerCompte() {
+  async function suppressionCompte() {
     try {
       console.log('Sending DELETE request to /utilisateurs/');
       const response = await apiClient.delete('/utilisateurs/');
@@ -44,7 +44,7 @@ function SupprimerCompte() {
         {successMessage && <p className="text-green-500">{successMessage}</p>}
         <p className="mb-5">Êtes-vous sûr de vouloir supprimer définitivement votre compte ? Cette action est irréversible.</p>
         <div>
-          <button onClick={supprimerCompte} className="btn btn-danger mr-2">Oui, supprimer</button>
+          <button onClick={suppressionCompte} className="btn btn-danger mr-2">Oui, supprimer</button>
           <button onClick={annulerSuppression} className="btn btn-primary">Annuler</button>
         </div>
       </div>
