@@ -70,7 +70,7 @@ const TrajetDetails = () => {
   const handleDelete = async () => {
     try {
       await apiClient.delete(`/trajets/${trajetId}`);
-      navigate('/mes-trajets');
+      navigate('/mestrajets');
     } catch (error) {
       console.error('Failed to delete the trajet:', error);
       setError('Failed to delete the trajet');
