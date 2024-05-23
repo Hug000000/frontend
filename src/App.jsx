@@ -9,7 +9,7 @@ import Mestrajets from './trajet/mestrajets.jsx';
 import SupprimerCompte from './utilisateur/supprimerCompte.jsx';
 import ModifierVoiture from './voiture/modifierVoiture.jsx';
 import AjouterVoiture from './voiture/ajouterVoiture.jsx';
-import ConfirmerSuppressionVoiture from './voiture/confirmerSuppressionVoiture';
+import ConfirmerSuppressionVoiture from './voiture/confirmerSuppressionVoiture.jsx';
 import TermsOfService from './utilisateur/TermsOfService.jsx';
 import Footer from "./home/footer.jsx";
 import Home from './home/home.jsx';
@@ -21,13 +21,28 @@ import AvisSurUtilisateur from './avis/avisutilisateur';
 import Rating from './avis/ajouteravis.jsx';
 import MesAvis from './avis/mesavis.jsx';
 import './App.css';
+import { useState, useEffect } from 'react';
 
-// Le format de mon site
 function App() {
+  const [theme, setTheme] = useState('themeCovoit');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'themeCovoit';
+    setTheme(savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'themeCovoit' ? 'themeCovoitdark' : 'themeCovoit';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
   return (
     <AuthProvider>
       <Router>
-        <div className='h-screen' data-theme="themeCovoit">
+        <div className='h-screen' data-theme={theme}>
           <Navbar />
           <Routes>
             <Route path="/signup" element={<SignUp />} />
@@ -49,7 +64,7 @@ function App() {
             <Route path="/mesavis" element={<MesAvis />} />
             <Route path="/" element={<Home />} />
           </Routes>
-          <Footer />
+          <Footer toggleTheme={toggleTheme} theme={theme} /> {/* Assurez-vous de passer les props */}
         </div>
       </Router> 
     </AuthProvider>

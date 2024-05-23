@@ -28,7 +28,7 @@ export default {
         themeCovoitdark: {
           'neutral': '#1b1b1b',
           'accent': '#23ca86',
-          'secondary': '#1e3924',
+          'secondary': '#193D2C',
           'base-100': '#04463e',
           'primary': '#fcfffe',
         },

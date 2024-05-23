@@ -6,7 +6,7 @@ function Navbar() {
   const { isAuthenticated, logout, isAdmin } = useAuth(); // Récupère le contexte d'authentification
 
   return (
-    <div className="navbar bg-custom-white h-12 fixed top-0 w-full z-50">
+    <div className="navbar bg-neutral h-12 fixed top-0 w-full z-50">
       <div className="navbar-start">
         <img src={logo} alt="logo" className="mr-2" style={{ height: '60px' }} />
         <Link to="/" className="btn btn-ghost text-xl link-primary">CovoiTech</Link>

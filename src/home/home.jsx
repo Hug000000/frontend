@@ -52,9 +52,9 @@ function FeaturesSection() {
       <div className="container mx-auto px-2 py-16">
         <div className="flex items-center justify-between">
           <div className="w-1/2 p-4 bg-opacity-0">
-            <h3 className="text-4xl font-bold my-4">Partagez vos trajets</h3>
+            <h3 className="text-4xl text-primary font-bold my-4">Partagez vos trajets</h3>
             <div className="pr-12 mt-4">
-              <p className="text-xl text-gray-700">
+              <p className="text-xl text-primary">
                 En rejoignant notre communauté, vous optez pour une manière de voyager qui enrichit votre vie sociale. Partagez plus qu'un trajet, partagez des expériences et créez des souvenirs ensemble. C'est l'esprit du covoiturage : connecter les gens, un trajet à la fois.
               </p>
             </div>
@@ -70,9 +70,9 @@ function FeaturesSection() {
             <img src={imageRessource} alt="imagePartage" className="max-w-full h-auto rounded-xl" />
           </div>
           <div className="w-1/2 p-4 bg-opacity-0 pl-16">
-            <h3 className="text-4xl font-bold my-4">Tout type de déplacement</h3>
+            <h3 className="text-4xl text-primary font-bold my-4">Tout type de déplacement</h3>
             <div className="mt-4">
-              <p className="text-xl text-gray-700">
+              <p className="text-xl text-primary ">
                 Plus qu'un simple moyen de rejoindre votre famille pendant les vacances, notre plateforme de covoiturage offre des solutions de mobilité quotidiennes. Que ce soit pour vous rendre au travail, à l'école ou pour tout autre trajet régulier, notre service vous aide à voyager de manière économique et écologique. Rejoignez notre communauté et transformez vos déplacements habituels en une expérience plus agréable et durable.
               </p>
             </div>
