@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast'; // Importation pour afficher des notifications toast
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -10,9 +10,68 @@ const SearchPage = () => {
   const [villeDepart, setVilleDepart] = useState('');
   const [villeArrivee, setVilleArrivee] = useState('');
   const [trajets, setTrajets] = useState([]);
+  const [villes, setVilles] = useState([]);
+  const [filteredVillesDepart, setFilteredVillesDepart] = useState([]);
+  const [filteredVillesArrivee, setFilteredVillesArrivee] = useState([]);
+  const [showSuggestionsDepart, setShowSuggestionsDepart] = useState(false);
+  const [showSuggestionsArrivee, setShowSuggestionsArrivee] = useState(false);
   const [error, setError] = useState('');
   const [searchPerformed, setSearchPerformed] = useState(false); // Nouvel état pour suivre si une recherche a été effectuée
   const navigate = useNavigate();
+
+  // Charger les noms de villes à l'initialisation du composant
+  useEffect(() => {
+    const fetchVilles = async () => {
+      try {
+        const response = await apiClient.get('/ville/');
+        if (response.data) {
+          setVilles(response.data);
+        } else {
+          throw new Error('Erreur lors de la récupération des noms de villes');
+        }
+      } catch (error) {
+        toast.error(error.message);
+        setError(error.message);
+      }
+    };
+
+    fetchVilles();
+  }, []);
+
+  // Fonction pour normaliser les chaînes de caractères (suppression des accents, conversion en minuscules)
+  const normalizeString = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  };
+
+  const handleVilleDepartChange = (e) => {
+    const value = e.target.value;
+    setVilleDepart(value);
+    const normalizedValue = normalizeString(value);
+    setFilteredVillesDepart(
+      villes.filter((ville) => normalizeString(ville).includes(normalizedValue))
+    );
+    setShowSuggestionsDepart(true);
+  };
+
+  const handleVilleArriveeChange = (e) => {
+    const value = e.target.value;
+    setVilleArrivee(value);
+    const normalizedValue = normalizeString(value);
+    setFilteredVillesArrivee(
+      villes.filter((ville) => normalizeString(ville).includes(normalizedValue))
+    );
+    setShowSuggestionsArrivee(true);
+  };
+
+  const handleVilleDepartSelect = (ville) => {
+    setVilleDepart(ville);
+    setShowSuggestionsDepart(false);
+  };
+
+  const handleVilleArriveeSelect = (ville) => {
+    setVilleArrivee(ville);
+    setShowSuggestionsArrivee(false);
+  };
 
   // Fonction pour récupérer l'ID d'une ville
   const fetchVilleId = async (ville) => {
@@ -91,8 +150,21 @@ const SearchPage = () => {
             className="input input-bordered bg-primary"
             placeholder="Entrez la ville de départ"
             value={villeDepart}
-            onChange={(e) => setVilleDepart(e.target.value)}
+            onChange={handleVilleDepartChange}
           />
+          {showSuggestionsDepart && filteredVillesDepart.length > 0 && (
+            <ul className="bg-accent rounded-xl text-primary shadow-lg max-h-40 overflow-y-auto mt-1">
+              {filteredVillesDepart.map((ville, index) => (
+                <li
+                  key={index}
+                  className="cursor-pointer p-2 hover:bg-secondary"
+                  onClick={() => handleVilleDepartSelect(ville)}
+                >
+                  {ville}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="form-control">
           <label className="block mb-2 text-md text-primary font-bold mt-6">Ville d'arrivée</label>
@@ -101,8 +173,21 @@ const SearchPage = () => {
             className="input input-bordered bg-primary"
             placeholder="Entrez la ville d'arrivée"
             value={villeArrivee}
-            onChange={(e) => setVilleArrivee(e.target.value)}
+            onChange={handleVilleArriveeChange}
           />
+          {showSuggestionsArrivee && filteredVillesArrivee.length > 0 && (
+            <ul className="bg-accent rounded-xl text-primary shadow-lg max-h-40 overflow-y-auto mt-1">
+              {filteredVillesArrivee.map((ville, index) => (
+                <li
+                  key={index}
+                  className="cursor-pointer p-2 hover:bg-secondary"
+                  onClick={() => handleVilleArriveeSelect(ville)}
+                >
+                  {ville}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="form-control mt-20">
           <button className="btn btn-accent" onClick={handleSearch}>

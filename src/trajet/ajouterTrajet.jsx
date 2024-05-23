@@ -17,31 +17,83 @@ function CreateTripPage() {
     prix: '' // Ajout du champ prix
   });
   const [voitures, setVoitures] = useState([]);
+  const [villes, setVilles] = useState([]);
+  const [filteredVillesDepart, setFilteredVillesDepart] = useState([]);
+  const [filteredVillesArrivee, setFilteredVillesArrivee] = useState([]);
+  const [showSuggestionsDepart, setShowSuggestionsDepart] = useState(false);
+  const [showSuggestionsArrivee, setShowSuggestionsArrivee] = useState(false);
   const [errors, setErrors] = useState('');
   const [requestStatus, setRequestStatus] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Charger les voitures du propriétaire à l'initialisation du composant
+  // Charger les noms de villes et les voitures du propriétaire à l'initialisation du composant
   useEffect(() => {
-    const fetchVoitures = async () => {
+    const fetchInitialData = async () => {
       setLoading(true);
       try {
-        const response = await apiClient.get('/voiture/par-proprietaire');
-        if (response.status === 200 && Array.isArray(response.data)) {
-          setVoitures(response.data);
+        const [villesResponse, voituresResponse] = await Promise.all([
+          apiClient.get('/ville/'),
+          apiClient.get('/voiture/par-proprietaire')
+        ]);
+
+        if (villesResponse.status === 200) {
+          setVilles(villesResponse.data);
+        }
+
+        if (voituresResponse.status === 200 && Array.isArray(voituresResponse.data)) {
+          setVoitures(voituresResponse.data);
         } else {
           setErrors("Erreur lors de la récupération des voitures.");
         }
       } catch (error) {
-        console.error('Erreur lors du chargement des voitures:', error);
-        setErrors("Erreur lors du chargement des voitures.");
+        console.error('Erreur lors du chargement des données:', error);
+        setErrors("Erreur lors du chargement des données.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchVoitures();
+    fetchInitialData();
   }, []);
+
+  // Fonction pour normaliser les chaînes de caractères (suppression des accents, conversion en minuscules)
+  const normalizeString = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  };
+
+  // Gérer les changements dans la zone de saisie pour la ville de départ
+  const handleVilleDepartChange = (e) => {
+    const value = e.target.value;
+    setFormData(prevState => ({ ...prevState, lieuDepart: value }));
+    const normalizedValue = normalizeString(value);
+    setFilteredVillesDepart(
+      villes.filter((ville) => normalizeString(ville).includes(normalizedValue))
+    );
+    setShowSuggestionsDepart(true);
+  };
+
+  // Gérer les changements dans la zone de saisie pour la ville d'arrivée
+  const handleVilleArriveeChange = (e) => {
+    const value = e.target.value;
+    setFormData(prevState => ({ ...prevState, lieuArrivee: value }));
+    const normalizedValue = normalizeString(value);
+    setFilteredVillesArrivee(
+      villes.filter((ville) => normalizeString(ville).includes(normalizedValue))
+    );
+    setShowSuggestionsArrivee(true);
+  };
+
+  // Gérer la sélection d'une ville de départ
+  const handleVilleDepartSelect = (ville) => {
+    setFormData(prevState => ({ ...prevState, lieuDepart: ville }));
+    setShowSuggestionsDepart(false);
+  };
+
+  // Gérer la sélection d'une ville d'arrivée
+  const handleVilleArriveeSelect = (ville) => {
+    setFormData(prevState => ({ ...prevState, lieuArrivee: ville }));
+    setShowSuggestionsArrivee(false);
+  };
 
   // Gérer les changements dans le formulaire
   const handleChange = (e) => {
@@ -158,8 +210,21 @@ function CreateTripPage() {
               className="input w-full bg-secondary text-primary mb-6"
               placeholder="Lieu de départ"
               value={formData.lieuDepart}
-              onChange={handleChange}
+              onChange={handleVilleDepartChange}
             />
+            {showSuggestionsDepart && filteredVillesDepart.length > 0 && (
+              <ul className="bg-neutral text-primary rounded-xl shadow-lg max-h-40 overflow-y-auto mt-1">
+                {filteredVillesDepart.map((ville, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer p-2 hover:bg-accent"
+                    onClick={() => handleVilleDepartSelect(ville)}
+                  >
+                    {ville}
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <label className="block mb-2 text-sm font-bold">Date de départ</label>
             <input
@@ -217,8 +282,21 @@ function CreateTripPage() {
               className="input bg-secondary text-primary w-full mb-6"
               placeholder="Lieu d'arrivée"
               value={formData.lieuArrivee}
-              onChange={handleChange}
+              onChange={handleVilleArriveeChange}
             />
+            {showSuggestionsArrivee && filteredVillesArrivee.length > 0 && (
+              <ul className="bg-neutral text-primary rounded-xl shadow-lg max-h-40 overflow-y-auto mt-1">
+                {filteredVillesArrivee.map((ville, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer p-2 hover:bg-gray-200"
+                    onClick={() => handleVilleArriveeSelect(ville)}
+                  >
+                    {ville}
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <label className="block mb-2 text-sm font-bold">Date d'arrivée</label>
             <input
