@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './utilisateur/authContext.jsx'; // Assurez-vous que le chemin soit correct
+import { AuthProvider } from './utilisateur/authContext.jsx';
 import SignUp from './utilisateur/signUp.jsx';
 import Login from './utilisateur/login.jsx';
 import Navbar from './home/navbar.jsx';
