@@ -15,7 +15,7 @@ function AjouterVoiture() {
 
   // Fonction pour valider la plaque d'immatriculation
   const validerPlaque = (plaque) => {
-    const regex = /^[[-]A-Z0-9]{1,10}$/;
+    const regex = /^[[-]A-Z0-9]{1,11}$/;
     return regex.test(plaque);
   };
 
