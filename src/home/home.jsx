@@ -1,21 +1,23 @@
-import { useAuth } from '../useAuth'; // Assurez-vous que le chemin est correct
-import {useNavigate } from 'react-router-dom';
-import imagePartage from '/photoCovoiturage1.jpeg';
-import imageRessource from '/photoCovoiturage2.jpg';
-import imageHaut from '/photoCovoiturage3.jpg';
-import { FaMoneyBill } from "react-icons/fa";
-import { FaLeaf } from "react-icons/fa";
-import { AiFillThunderbolt } from "react-icons/ai";
+import { useAuth } from '../useAuth';
+import { useNavigate } from 'react-router-dom';
+import imagePartage from '/photoCovoiturage1.jpeg'; // Importation de l'image pour la section Partage
+import imageRessource from '/photoCovoiturage2.jpg'; // Importation de l'image pour la section Ressource
+import imageHaut from '/photoCovoiturage3.jpg'; // Importation de l'image pour la section Hero
+import { FaMoneyBill } from "react-icons/fa"; // Importation de l'icône FaMoneyBill
+import { FaLeaf } from "react-icons/fa"; // Importation de l'icône FaLeaf
+import { AiFillThunderbolt } from "react-icons/ai"; // Importation de l'icône AiFillThunderbolt
 
+// Composant pour la section Hero
 function HeroSection() {
   const { isAuthenticated } = useAuth(); // Récupère le contexte d'authentification
   const navigate = useNavigate();
 
+  // Fonction pour gérer les clics sur les boutons
   const handleClick = (path) => {
     if (isAuthenticated) {
-      navigate(path);
+      navigate(path); // Navigation vers le chemin spécifié si l'utilisateur est authentifié
     } else {
-      navigate('/login');
+      navigate('/login'); // Redirection vers la page de connexion si l'utilisateur n'est pas authentifié
     }
   };
 
@@ -42,6 +44,7 @@ function HeroSection() {
   );
 }
 
+// Composant pour la section des fonctionnalités
 function FeaturesSection() {
   return (
     <section className="bg-secondary pt-16">
@@ -70,7 +73,8 @@ function FeaturesSection() {
             <h3 className="text-4xl font-bold my-4">Tout type de déplacement</h3>
             <div className="mt-4">
               <p className="text-xl text-gray-700">
-              Plus qu'un simple moyen de rejoindre votre famille pendant les vacances, notre plateforme de covoiturage offre des solutions de mobilité quotidiennes. Que ce soit pour vous rendre au travail, à l'école ou pour tout autre trajet régulier, notre service vous aide à voyager de manière économique et écologique. Rejoignez notre communauté et transformez vos déplacements habituels en une expérience plus agréable et durable.              </p>
+                Plus qu'un simple moyen de rejoindre votre famille pendant les vacances, notre plateforme de covoiturage offre des solutions de mobilité quotidiennes. Que ce soit pour vous rendre au travail, à l'école ou pour tout autre trajet régulier, notre service vous aide à voyager de manière économique et écologique. Rejoignez notre communauté et transformez vos déplacements habituels en une expérience plus agréable et durable.
+              </p>
             </div>
           </div>
         </div>
@@ -79,6 +83,7 @@ function FeaturesSection() {
   );
 }
 
+// Composant pour la section des icônes
 function IconSection() {
   return (
     <div className="bg-secondary p-5">
@@ -106,7 +111,7 @@ function IconSection() {
             </div>
             <div className="collapse-content bg-accent text-accent-content peer-checked:bg-primary peer-checked:text-primary-content"> 
               <p className="text-lg">
-              Choisir le covoiturage c'est participer activement à la diminution des émissions de CO2. Moins de voitures sur la route signifie moins de pollution et une meilleure qualité de l'air pour nous tous.
+                Choisir le covoiturage c'est participer activement à la diminution des émissions de CO2. Moins de voitures sur la route signifie moins de pollution et une meilleure qualité de l'air pour nous tous.
               </p>
             </div>
           </div>
@@ -130,12 +135,13 @@ function IconSection() {
   );
 }
 
+// Composant principal pour la page d'accueil
 function Home() {
   return (
     <>
-        <HeroSection />
-        <FeaturesSection />
-        <IconSection/>
+      <HeroSection />
+      <FeaturesSection />
+      <IconSection />
     </>
   );
 }

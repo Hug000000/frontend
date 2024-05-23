@@ -22,6 +22,7 @@ import Rating from './avis/ajouteravis.jsx';
 import MesAvis from './avis/mesavis.jsx';
 import './App.css';
 
+// Le format de mon site
 function App() {
   return (
     <AuthProvider>

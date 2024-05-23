@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
+import toast from 'react-hot-toast'; // Importation pour afficher des notifications toast
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import apiClient from '../api';
 
 const SearchPage = () => {
+  // États pour gérer les entrées de l'utilisateur et les résultats de recherche
   const [dateDepart, setDateDepart] = useState('');
   const [villeDepart, setVilleDepart] = useState('');
   const [villeArrivee, setVilleArrivee] = useState('');
@@ -13,8 +14,9 @@ const SearchPage = () => {
   const [searchPerformed, setSearchPerformed] = useState(false); // Nouvel état pour suivre si une recherche a été effectuée
   const navigate = useNavigate();
 
+  // Fonction pour récupérer l'ID d'une ville
   const fetchVilleId = async (ville) => {
-    if (!ville) return null; // Return null if no city is provided
+    if (!ville) return null; // Retourne null si aucune ville n'est fournie
     try {
       const response = await apiClient.get(`/ville/${ville}`);
       if (!response.data) {
@@ -28,9 +30,10 @@ const SearchPage = () => {
     }
   };
 
+  // Fonction pour gérer la recherche de trajets
   const handleSearch = async () => {
-    setError(''); // Clear previous errors
-    setSearchPerformed(false); // Reset the search performed state
+    setError(''); // Effacer les erreurs précédentes
+    setSearchPerformed(false); // Réinitialiser l'état de recherche effectuée
     const idVilleDepart = await fetchVilleId(villeDepart);
     const idVilleArrivee = await fetchVilleId(villeArrivee);
 
@@ -43,17 +46,18 @@ const SearchPage = () => {
       const response = await apiClient.get(query);
       if (response.data) {
         setTrajets(response.data);
-        setSearchPerformed(true); // Set search performed to true after fetching results
+        setSearchPerformed(true); // Indiquer que la recherche a été effectuée
       } else {
         throw new Error('Aucun trajet trouvé');
       }
     } catch (error) {
       setError('Erreur lors de la récupération des trajets');
       toast.error(error.message);
-      setSearchPerformed(true); // Set search performed to true even if there is an error
+      setSearchPerformed(true); // Indiquer que la recherche a été effectuée même s'il y a une erreur
     }
   };
 
+  // Fonction pour afficher les trajets
   const renderTrajets = (trajets) => (
     trajets.map(trajet => (
       <div key={trajet.idtrajet} className="card bg-base-100 shadow-xl p-4 m-4 cursor-pointer hover:bg-base-300"

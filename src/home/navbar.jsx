@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../useAuth'; // Assurez-vous que le chemin est correct
-import logo from '/logoSansFond.png';
+import { useAuth } from '../useAuth';
+import logo from '/logoSansFond.png'; // Assurez-vous que le chemin est correct
 
 function Navbar() {
   const { isAuthenticated, logout, isAdmin } = useAuth(); // Récupère le contexte d'authentification
@@ -12,9 +12,9 @@ function Navbar() {
         <Link to="/" className="btn btn-ghost text-xl link-primary">CovoiTech</Link>
       </div>
       <div className="navbar-end">
-        {isAuthenticated ? (
+        {isAuthenticated ? ( // Vérifie si l'utilisateur est authentifié
           <>
-            {isAdmin && (
+            {isAdmin && ( // Vérifie si l'utilisateur est un administrateur
               <Link to="/admin/users" className="btn btn-error link-neutral mx-1">Admin Mode</Link>
             )}
             <div className="dropdown dropdown-hover">
@@ -27,12 +27,12 @@ function Navbar() {
                 <li><Link to="/supprimerCompte" className="btn btn-primary link-neutral">Supprimer mon compte</Link></li>
               </ul>
             </div>
-            <button onClick={logout} className="btn btn-primary link-neutral">Déconnexion</button>
+            <button onClick={logout} className="btn btn-primary link-neutral">Déconnexion</button> {/* Bouton pour déconnecter l'utilisateur */}
           </>
-        ) : (
+        ) : ( // Si l'utilisateur n'est pas authentifié
           <>
-            <Link to="/signup" className="btn btn-primary link-neutral mx-1">Inscription</Link>
-            <Link to="/login" className="btn btn-primary link-neutral mx-1">Connexion</Link>
+            <Link to="/signup" className="btn btn-primary link-neutral mx-1">Inscription</Link> {/* Lien vers la page d'inscription */}
+            <Link to="/login" className="btn btn-primary link-neutral mx-1">Connexion</Link> {/* Lien vers la page de connexion */}
           </>
         )}
       </div>

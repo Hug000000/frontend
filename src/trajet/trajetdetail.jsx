@@ -13,7 +13,7 @@ const getImageSrc = (image) => {
 };
 
 const TrajetDetails = () => {
-  const { trajetId } = useParams();
+  const { trajetId } = useParams(); // Récupère l'ID du trajet depuis les paramètres de l'URL
   const [trajet, setTrajet] = useState(null);
   const [user, setUser] = useState(null);
   const [conducteur, setConducteur] = useState(null);
@@ -25,8 +25,10 @@ const TrajetDetails = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [trajetDeletedError, setTrajetDeletedError] = useState(null); // État pour gérer l'erreur de trajet supprimé
   const navigate = useNavigate();
 
+  // Fonction pour récupérer les informations du trajet et de l'utilisateur
   const fetchUserAndTrajet = useCallback(async () => {
     try {
       const trajetResponse = await apiClient.get(`/trajets/${trajetId}`);
@@ -58,13 +60,35 @@ const TrajetDetails = () => {
 
   useSocket({
     nouvel_avis: (nouvelAvis) => {
-      console.log('nouvel_avis received:', nouvelAvis);
-      fetchUserAndTrajet();
+      if (nouvelAvis.iddestinataire === conducteur?.idutilisateur) {
+        fetchUserAndTrajet();
+      }
     },
     supprimer_avis: (deletedAvis) => {
-      console.log('supprimer_avis received:', deletedAvis);
-      fetchUserAndTrajet();
+      if (deletedAvis.iddestinataire === conducteur?.idutilisateur) {
+        fetchUserAndTrajet();
+      }
     },
+    trajet_supprime: ({ trajetId: deletedTrajetId }) => {
+      if (deletedTrajetId === trajetId) {
+        setTrajetDeletedError('Ce trajet a été supprimé.');
+        setTimeout(() => {
+          navigate('/mestrajets');
+        }, 3000);
+      }
+    },
+    passager_ajoute: ({ trajetId: updatedTrajetId }) => {
+      console.log('passager_ajoute received:', updatedTrajetId);
+      if (updatedTrajetId === trajetId) {
+        fetchUserAndTrajet();
+      }
+    },
+    passager_supprime: ({ trajetId: updatedTrajetId }) => {
+      console.log('passager_supprime received:', updatedTrajetId);
+      if (updatedTrajetId === trajetId) {
+        fetchUserAndTrajet();
+      }
+    }
   });
 
   const handleDelete = async () => {
@@ -82,9 +106,9 @@ const TrajetDetails = () => {
     try {
       await apiClient.post(`/trajets/join/${trajetId}`);
       setSuccessMessage('Vous avez rejoint le trajet avec succès.');
-      setTimeout(() => setSuccessMessage(''), 3000); // Clear the message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000); // Effacer le message après 3 secondes
       setLoading(true);
-      navigate(0); // Refresh the page to reflect new state
+      navigate(0); // Rafraîchir la page pour refléter le nouvel état
     } catch (error) {
       console.error('Failed to join the trajet as a passenger:', error);
       setError('Failed to join as a passenger');
@@ -96,9 +120,9 @@ const TrajetDetails = () => {
     try {
       await apiClient.post(`/trajets/leave/${trajetId}`);
       setSuccessMessage('Vous avez quitté le trajet avec succès.');
-      setTimeout(() => setSuccessMessage(''), 3000); // Clear the message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000); // Effacer le message après 3 secondes
       setLoading(true);
-      navigate(0); // Refresh the page to reflect new state
+      navigate(0); // Rafraîchir la page pour refléter le nouvel état
     } catch (error) {
       console.error('Failed to leave the trajet as a passenger:', error);
       setError('Failed to leave as a passenger');
@@ -124,6 +148,7 @@ const TrajetDetails = () => {
     <div className="bg-secondary min-h-screen flex justify-center items-center py-60">
       <div className="bg-neutral text-primary p-8 rounded-2xl w-full max-w-4xl px-20 py-10 justify-center items-center">
         <h1 className="text-4xl font-bold my-6">Détails du Trajet</h1>
+        {trajetDeletedError && <div className="text-red-500 mb-4">{trajetDeletedError}</div>}
         <div className="bg-gray-100 p-4 rounded-lg my-1">
           <p><strong>Description:</strong> {trajet.description}</p>
         </div>

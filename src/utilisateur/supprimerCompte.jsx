@@ -4,36 +4,34 @@ import apiClient from '../api';
 import { useAuth } from '../useAuth';
 
 function SupprimerCompte() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const navigate = useNavigate(); // Hook pour naviguer entre les pages
+  const { logout } = useAuth(); // Récupère la fonction logout du contexte d'authentification
+  const [errorMessage, setErrorMessage] = useState(null); // État pour gérer les messages d'erreur
+  const [successMessage, setSuccessMessage] = useState(null); // État pour gérer les messages de succès
 
   // Fonction pour supprimer le compte
   async function suppressionCompte() {
     try {
-      console.log('Sending DELETE request to /utilisateurs/');
-      const response = await apiClient.delete('/utilisateurs/');
-      console.log('Response:', response);
+      const response = await apiClient.delete('/utilisateurs/'); // Envoie une requête DELETE pour supprimer le compte utilisateur
 
       if (response.status === 200) {
-        setSuccessMessage('Compte supprimé avec succès.');
-        logout();
+        setSuccessMessage('Compte supprimé avec succès.'); // Affiche un message de succès
+        logout(); // Déconnecte l'utilisateur
         setTimeout(() => {
-          navigate('/');
+          navigate('/'); // Redirige vers la page d'accueil après 2 secondes
         }, 2000);
       } else {
-        setErrorMessage('Erreur lors de la suppression du compte.');
+        setErrorMessage('Erreur lors de la suppression du compte.'); // Affiche un message d'erreur si le statut de la réponse n'est pas 200
       }
     } catch (error) {
       console.error('Erreur lors de la suppression du compte:', error);
-      setErrorMessage('Une erreur est survenue. Veuillez réessayer.');
+      setErrorMessage('Une erreur est survenue. Veuillez réessayer.'); // Affiche un message d'erreur en cas d'exception
     }
   }
 
   // Fonction pour annuler la suppression
   function annulerSuppression() {
-    navigate('/profile');
+    navigate('/profile'); // Redirige vers la page du profil
   }
 
   return (

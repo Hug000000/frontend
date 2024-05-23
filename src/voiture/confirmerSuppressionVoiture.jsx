@@ -2,23 +2,23 @@ import { useNavigate, useParams } from 'react-router-dom';
 import apiClient from '../api';
 
 function ConfirmerSuppressionVoiture() {
-  const { plaqueimat } = useParams();
-  const navigate = useNavigate();
+  const { plaqueimat } = useParams(); // Récupère la plaque d'immatriculation depuis les paramètres de l'URL
+  const navigate = useNavigate(); // Utilisation du hook useNavigate pour la navigation
 
   // Fonction pour supprimer la voiture
   const supprimerVoiture = async () => {
     try {
-      await apiClient.delete(`/voiture/${plaqueimat}`);
-      navigate('/mesvoitures');
+      await apiClient.delete(`/voiture/${plaqueimat}`); // Envoie une requête DELETE à l'API pour supprimer la voiture
+      navigate('/mesvoitures'); // Redirige vers la liste des voitures après suppression
     } catch (error) {
       console.error('Erreur lors de la suppression de la voiture:', error);
-      alert('Erreur lors de la suppression de la voiture.');
+      alert('Erreur lors de la suppression de la voiture.'); // Affiche une alerte en cas d'erreur
     }
   };
 
   // Fonction pour annuler et revenir à la liste des voitures
   const annulerSuppression = () => {
-    navigate('/mesvoitures');
+    navigate('/mesvoitures'); // Redirige vers la liste des voitures sans supprimer
   };
 
   return (

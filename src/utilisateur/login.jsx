@@ -4,9 +4,10 @@ import { useAuth } from '../useAuth';
 import apiClient from '../api';
 
 function LoginPage() {
-  const navigate = useNavigate();
-  const { login } = useAuth();
+  const navigate = useNavigate(); // Hook pour naviguer entre les pages
+  const { login } = useAuth(); // Récupère la fonction login du contexte d'authentification
 
+  // État local pour les données du formulaire, les erreurs et le statut de la requête
   const [formData, setFormData] = useState({
     username: '',
     motdepasse: '',
@@ -14,42 +15,49 @@ function LoginPage() {
   const [errors, setErrors] = useState('');
   const [requestStatus, setRequestStatus] = useState('');
 
+  // Gère les changements dans les champs de formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
+  // Valide les champs du formulaire
   const validateForm = () => {
     const { username, motdepasse } = formData;
-    return username && motdepasse;
+    return username && motdepasse; // Retourne vrai si les deux champs sont remplis
   };
 
+  // Gère la soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors('');
     setRequestStatus('');
 
+    // Vérifie si tous les champs sont remplis
     if (!validateForm()) {
       setErrors('Tous les champs doivent être remplis.');
       return;
     }
 
     try {
+      // Envoie une requête POST pour tenter de se connecter
       const response = await apiClient.post(
         '/utilisateurs/login/',
         {
           username: formData.username,
           motdepasse: formData.motdepasse,
         },
-        { withCredentials: true }
+        { withCredentials: true } // Inclut les cookies dans la requête
       );
 
+      // Si la connexion est réussie
       if (response.status === 200) {
         setRequestStatus('Connexion réussie!');
         login(); // Met à jour l'état d'authentification
         navigate('/'); // Redirige vers la page d'accueil après la connexion
       }
     } catch (error) {
+      // Gère les erreurs de connexion
       if (error.response && error.response.status === 401) {
         setRequestStatus('Nom d\'utilisateur ou mot de passe incorrect');
       } else {

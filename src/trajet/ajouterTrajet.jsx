@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '../api';
 
 function CreateTripPage() {
@@ -21,6 +21,7 @@ function CreateTripPage() {
   const [requestStatus, setRequestStatus] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Charger les voitures du propriétaire à l'initialisation du composant
   useEffect(() => {
     const fetchVoitures = async () => {
       setLoading(true);
@@ -42,11 +43,13 @@ function CreateTripPage() {
     fetchVoitures();
   }, []);
 
+  // Gérer les changements dans le formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
+  // Valider les données du formulaire
   const validateForm = () => {
     const { description, lieuDepart, lieuArrivee, dateDepart, heureDepart, dateArrivee, heureArrivee, placesDisponibles, voitureId, prix } = formData;
     if (!description || !lieuDepart || !lieuArrivee || !dateDepart || !heureDepart || !dateArrivee || !heureArrivee || !placesDisponibles || !voitureId || !prix) {
@@ -75,6 +78,7 @@ function CreateTripPage() {
     return true;
   };
 
+  // Récupérer l'ID de la ville à partir de son nom
   const fetchVilleId = async (nomVille) => {
     try {
       const response = await apiClient.get(`/ville/${nomVille}`);
@@ -87,6 +91,7 @@ function CreateTripPage() {
     }
   };
 
+  // Gérer la soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -190,16 +195,17 @@ function CreateTripPage() {
                   </option>
                 ))}
               </select>
+              <Link to="/ajouter-voiture" className="btn btn-primary mt-1 mb-5">Ajouter une Voiture</Link>
 
               <label className="block mb-2 text-sm font-bold">Prix</label>
-            <input
-              name="prix"
-              type="number"
-              className="input bg-secondary text-primary w-full max-w-xs mb-6"
-              placeholder="Prix en euros"
-              value={formData.prix}
-              onChange={handleChange}
-            />
+              <input
+                name="prix"
+                type="number"
+                className="input bg-secondary text-primary w-full max-w-xs mb-6"
+                placeholder="Prix en euros"
+                value={formData.prix}
+                onChange={handleChange}
+              />
             </div>
           </div>
 
@@ -242,7 +248,7 @@ function CreateTripPage() {
               onChange={handleChange}
             />
 
-            <label className="block mb-2 text-sm font-bold">Description</label>
+            <label className="block mb-2 mt-6 text-sm font-bold">Description</label>
             <textarea
               name="description"
               className="textarea bg-secondary text-primary w-full mb-6"
@@ -250,7 +256,6 @@ function CreateTripPage() {
               value={formData.description}
               onChange={handleChange}
             ></textarea>
-
           </div>
         </div>
 

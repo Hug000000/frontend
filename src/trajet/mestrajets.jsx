@@ -8,31 +8,37 @@ const MesTrajets = () => {
   const [trajetsPassager, setTrajetsPassager] = useState({ passes: [], aVenir: [] });
   const navigate = useNavigate();
 
+  // Utiliser useEffect pour récupérer les trajets lorsque le composant est monté
   useEffect(() => {
     const fetchTrajets = async () => {
       try {
+        // Récupérer les trajets où l'utilisateur est conducteur
         const { data: trajetsConduite } = await apiClient.get('/trajets/conducteur');
+        // Récupérer les trajets où l'utilisateur est passager
         const { data: trajetsPassage } = await apiClient.get('/trajets/passager');
 
-        const now = new Date().getTime(); // Get the current time in milliseconds
+        const now = new Date().getTime(); // Obtenir l'heure actuelle en millisecondes
 
-        // Filter based solely on the departure time
+        // Filtrer les trajets passés et à venir pour le conducteur
         const passesConducteur = trajetsConduite.filter(t => new Date(t.heuredepart).getTime() < now);
         const aVenirConducteur = trajetsConduite.filter(t => new Date(t.heuredepart).getTime() >= now);
 
+        // Filtrer les trajets passés et à venir pour le passager
         const passesPassager = trajetsPassage.filter(t => new Date(t.heuredepart).getTime() < now);
         const aVenirPassager = trajetsPassage.filter(t => new Date(t.heuredepart).getTime() >= now);
 
+        // Mettre à jour l'état avec les trajets filtrés
         setTrajetsConducteur({ passes: passesConducteur, aVenir: aVenirConducteur });
         setTrajetsPassager({ passes: passesPassager, aVenir: aVenirPassager });
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Erreur lors de la récupération des trajets:', error);
       }
     };
 
     fetchTrajets();
   }, []);
 
+  // Fonction pour afficher les trajets
   const renderTrajets = (trajets) => (
     trajets.map(trajet => (
       <div key={trajet.idtrajet} className="card bg-base-100 shadow-xl p-4 m-4 cursor-pointer hover:bg-base-300"
@@ -51,13 +57,13 @@ const MesTrajets = () => {
         <div className="collapse collapse-arrow border border-primary bg-primary my-4">
           <input type="checkbox" />
           <div className="collapse-title text-xl font-medium">
-          Trajets conducteur
+            Trajets conducteur
           </div>
           <div className="collapse-content">
             <div className="collapse collapse-arrow border border-accent bg-accent my-4">
               <input type="checkbox" />
               <div className="collapse-title text-xl font-medium">
-              Trajets passés
+                Trajets passés
               </div>
               <div className="collapse-content">
                 {renderTrajets(trajetsConducteur.passes)}
@@ -66,7 +72,7 @@ const MesTrajets = () => {
             <div className="collapse collapse-arrow border border-accent bg-accent my-4">
               <input type="checkbox" />
               <div className="collapse-title text-xl font-medium">
-              Trajets à venir
+                Trajets à venir
               </div>
               <div className="collapse-content">
                 {renderTrajets(trajetsConducteur.aVenir)}
@@ -77,13 +83,13 @@ const MesTrajets = () => {
         <div className="collapse collapse-arrow border border-primary bg-primary my-4">
           <input type="checkbox" />
           <div className="collapse-title text-xl font-medium">
-          Trajets passager
+            Trajets passager
           </div>
           <div className="collapse-content">
             <div className="collapse collapse-arrow border border-accent bg-accent my-4">
               <input type="checkbox" />
               <div className="collapse-title text-xl font-medium">
-              Trajets passés
+                Trajets passés
               </div>
               <div className="collapse-content">
                 {renderTrajets(trajetsPassager.passes)}
@@ -92,7 +98,7 @@ const MesTrajets = () => {
             <div className="collapse collapse-arrow border border-accent bg-accent my-4">
               <input type="checkbox" />
               <div className="collapse-title text-xl font-medium">
-              Trajets à venir
+                Trajets à venir
               </div>
               <div className="collapse-content">
                 {renderTrajets(trajetsPassager.aVenir)}

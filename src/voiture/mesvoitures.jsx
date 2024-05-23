@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '../api';
 
 function MesVoitures() {
+  // États pour stocker les voitures, les erreurs et l'instance de navigation
   const [voitures, setVoitures] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();

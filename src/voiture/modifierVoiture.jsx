@@ -3,6 +3,7 @@ import apiClient from '../api';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function ModifierVoiture() {
+  // Récupère la plaque d'immatriculation de la voiture à partir des paramètres de l'URL
   const { plaqueimat } = useParams();
   const navigate = useNavigate();
   const [marque, setMarque] = useState('');

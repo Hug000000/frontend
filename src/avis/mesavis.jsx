@@ -2,29 +2,33 @@ import { useEffect, useState, useCallback } from 'react';
 import apiClient from '../api';
 import useSocket from '../socket/useSocket';
 
+// Composant pour afficher et gérer les avis envoyés et reçus par l'utilisateur
 const MesAvis = () => {
-  const [sentAvis, setSentAvis] = useState([]);
-  const [receivedAvis, setReceivedAvis] = useState([]);
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [sentAvis, setSentAvis] = useState([]); // État pour stocker les avis envoyés
+  const [receivedAvis, setReceivedAvis] = useState([]); // État pour stocker les avis reçus
+  const [error, setError] = useState(''); // État pour stocker les messages d'erreur
+  const [successMessage, setSuccessMessage] = useState(''); // État pour stocker les messages de succès
 
+  // Fonction pour récupérer les avis envoyés et reçus
   const fetchAvis = useCallback(async () => {
     try {
       const sentResponse = await apiClient.get('/avis/emetteur/');
-      setSentAvis(sentResponse.data);
+      setSentAvis(sentResponse.data); // Met à jour l'état avec les avis envoyés
 
       const receivedResponse = await apiClient.get('/avis/destinataire/');
-      setReceivedAvis(receivedResponse.data);
+      setReceivedAvis(receivedResponse.data); // Met à jour l'état avec les avis reçus
     } catch (err) {
-      setError('Erreur lors de la récupération des avis');
+      setError('Erreur lors de la récupération des avis'); // Met à jour l'état en cas d'erreur
       console.error(err);
     }
   }, []);
 
+  // Utilise useEffect pour récupérer les avis lors du montage du composant
   useEffect(() => {
     fetchAvis();
   }, [fetchAvis]);
 
+  // Utilise le hook useSocket pour mettre à jour les avis en temps réel
   useSocket({
     nouvel_avis: () => {
       fetchAvis();
@@ -34,14 +38,15 @@ const MesAvis = () => {
     },
   });
 
+  // Fonction pour supprimer un avis
   const deleteAvis = useCallback(async (id) => {
     try {
       await apiClient.delete(`/avis/${id}`);
-      setSentAvis((prev) => prev.filter((avis) => avis.idavis !== id));
-      setSuccessMessage('Avis supprimé avec succès');
-      setTimeout(() => setSuccessMessage(''), 3000);
+      setSentAvis((prev) => prev.filter((avis) => avis.idavis !== id)); // Met à jour l'état pour retirer l'avis supprimé
+      setSuccessMessage('Avis supprimé avec succès'); // Affiche un message de succès
+      setTimeout(() => setSuccessMessage(''), 3000); // Efface le message après 3 secondes
     } catch (err) {
-      setError('Erreur lors de la suppression de l\'avis');
+      setError('Erreur lors de la suppression de l\'avis'); // Met à jour l'état en cas d'erreur
       console.error(err);
     }
   }, []);
@@ -50,8 +55,8 @@ const MesAvis = () => {
     <div className="bg-secondary h-screen flex justify-center items-center">
       <div className="bg-neutral text-primary p-8 rounded-2xl w-full max-w-4xl px-20 py-10 justify-center items-center">
         <h2 className="text-2xl font-bold mb-4">Mes Avis</h2>
-        {error && <p className="text-red-600">{error}</p>}
-        {successMessage && <p className="text-green-600">{successMessage}</p>}
+        {error && <p className="text-red-600">{error}</p>} {/* Affiche les messages d'erreur */}
+        {successMessage && <p className="text-green-600">{successMessage}</p>} {/* Affiche les messages de succès */}
         <div className="mb-8">
           <div className="collapse mb-4">
             <input type="checkbox" className="peer" />

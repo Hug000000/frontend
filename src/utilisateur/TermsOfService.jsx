@@ -6,9 +6,10 @@ function TermsOfService() {
 
     // Fonction pour retourner à la page précédente
     const goBack = () => {
-        navigate(-1); // Retourne à la page précédente
+        navigate(-1);
     };
 
+    // Le composant
     return (
       <div className="bg-secondary flex justify-center items-center overflow-auto">
         <div className="bg-neutral text-primary p-8 rounded-2xl w-full max-w-7xl px-20 py-10 my-24">        
