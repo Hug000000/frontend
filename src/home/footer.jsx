@@ -21,7 +21,8 @@ function Footer({ toggleTheme, theme }) {
         <p className="font-bold">
           CovoiTech par Hugo BRUN <br />Pour simplifier le covoiturage {/* Texte de présentation */}
         </p>
-        <p>Dans le cadre du cursus d'IG à Polytech Montpellier</p> {/* Texte supplémentaire */}
+        <p>Dans le cadre du cursus d'IG à Polytech Montpellier</p>
+        <p>Si vous rencontrez le moindre problème, n'hésitez pas à le reporter à hugo.brun@etu.umontpellier.fr</p>
       </aside>
       
       {/* Section de navigation */}
