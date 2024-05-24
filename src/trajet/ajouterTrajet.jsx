@@ -179,7 +179,11 @@ function CreateTripPage() {
       }
     } catch (error) {
       setErrors(error.message);
-      setRequestStatus("Une erreur s'est produite lors de la création du trajet.");
+      if (error.response && error.response.status === 409) {
+        setRequestStatus("Échec de la création du trajet : un trajet similaire existe déjà.");
+      } else {
+        setRequestStatus("Une erreur s'est produite lors de la création du trajet.");
+      }    
     } finally {
       setLoading(false);
     }

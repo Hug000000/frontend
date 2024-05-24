@@ -62,7 +62,11 @@ function AjouterVoiture() {
       }
     } catch (error) {
       console.error('Erreur lors de l\'ajout de la voiture:', error);
-      setMessage('Erreur lors de l\'ajout de la voiture.');
+      if (error.response && error.response.status === 409) {
+        setError('Une voiture avec cette plaque d\'immatriculation existe déjà.');
+      } else {
+        setError('Erreur lors de l\'ajout de la voiture.');
+      }    
     }
   };
 
