@@ -208,6 +208,7 @@ function SignUpPage() {
           />
         </label>
 
+        <label className="block mb-2 text-primary font-bold">Photo de profil</label>
         <label className="bg-primary input input-neutral text-primary input-bordered flex items-center gap-2 my-3">
           <input
             name="image"

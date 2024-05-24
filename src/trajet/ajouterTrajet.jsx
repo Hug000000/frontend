@@ -266,7 +266,7 @@ function CreateTripPage() {
               </select>
               <Link to="/ajouter-voiture" className="btn btn-primary mt-1 mb-5">Ajouter une Voiture</Link>
 
-              <label className="block mb-2 text-sm font-bold">Prix</label>
+              <label className="block mb-2 text-sm font-bold">Prix (€)</label>
               <input
                 name="prix"
                 type="number"
